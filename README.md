@@ -61,9 +61,42 @@ if (navigator.xr) {
 }
 ```
 
-- **:**
-- **:**
-- **:**
-- **:**
-- **:**
-- **:**
+- **درخواست شروع سشن (XRSession):** این بخش، همان‌طور که پیش‌تر بیان کرده بودیم، با هدف مشخص کردن نوع تجربه کاربری واجب است، به عنوان مثال:
+
+```javascript
+navigator.xr.requestSession("immersive-vr").then((session) => {
+  // آماده اجرای محتوا...
+});
+```
+
+توجه داشته باشید که برای درخواست session، می‌توان سه حالت immersive-vr، immersive-ar یا inline را قرار داد.
+
+- **تعریف Reference Space:** این بخش، در واقع همان XRReferenceSpace است که پیش‌تر بیان کرده بودیم و با هدف محاسبات مکان و حرکت نسبت به یک سیستم مختصات، لازم و ضروری است.
+
+```javascript
+session.requestReferenceSpace("local-floor").then((refSpace) => {
+  // کار کردن با مختصات هم‌سطح زمین
+});
+```
+
+- **شروع حلقه رندر (Render Loop):** WebXR یک متد خاص به نام session.requestAnimationFrame() دارد و هدف آن، دریافت Pose(دید کاربر) در هر فریم و رندر کردن صحنه با WebGL یا کتابخانه سه‌بعدی (مثل Three.js) است.
+
+```javascript
+session.requestAnimationFrame(onXRFrame);
+
+function onXRFrame(time, frame) {
+  let pose = frame.getViewerPose(refSpace);
+  // رندر صحنه بر اساس pose
+}
+```
+
+- **مدیریت ورودی‌ها (XRInputSource):** وظیفه این قسمت، دریافت داده از کنترلر ها مانند حرکات دست، لمس صفحه و ... و اختصاص رویداد های مشخص به هر یک از آن‌ها مانند select، squeeze و یا selectstart است.
+
+```javascript
+session.addEventListener("select", (event) => {
+  console.log("شیء انتخاب شد!");
+});
+```
+
+- **پایان سشن و آزادسازی منابع:** آزاد سازی منابع در انتهای هر session با session.end();
+  به منظور جدوگیری از هدررفتن و اشغال بیهوده CPU و GPU را انجام می‌دهد.
