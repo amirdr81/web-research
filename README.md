@@ -37,11 +37,15 @@ WebXR یک استاندارد وب است که توسط W3C Immersive Web Workin
 - **XRSession:** اولین نقطه شروع تجربه کاربری از این جزء شروع می‌شود. به عبارتی، XRSession یک session است که تجربه کاربری داخل آن اجرا می‌شود. از انواع آن می‌توان به immersive-vr(تجربه کاربری VR) و immersive-ar(تجربه کاربری AR) اشاره کرد. نمونه کد این بخش را می‌توان در ادامه مشاهده کرد:
 
 ```javascript
-navigator.xr.requestSession('immersive-vr').then(session => {
+navigator.xr.requestSession("immersive-vr").then((session) => {
   // آماده اجرای محتوا
 });
+```
 
 - **XRReferenceSpace:** در این بخش، سیستم مختصات استاندارد تعیین می‌شود، یعنی
 - **XRFrame:** فریم رندر که در هر لحظه از session بروزرسانی می‌شود.
 - **XRInputSource:** وظیفه کنترل ورودی ها و مدیریت آن‌ها را برعهده دارد، مانند لمس صفحه، حرکات دست و ...
+
+```
+
 ```
