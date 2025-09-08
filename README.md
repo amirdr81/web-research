@@ -4,6 +4,8 @@
 
 WebXR یک استاندارد وب است که توسط W3C Immersive Web Working Group و با هدف تجربه واقعیت مجازی(VR) و واقعیت افزوده(AR) به صورت مستقیم در مرورگرها، توسعه داده شده است. واژه XR در نام این استاندارد، بیانگر Extended Reality به معنای استفاده از هر دوی VR و AR و یا حتی ترکیبشان، یعنی MR (Mixed Reality) است.
 
+![نمونه ای از استفاده WebXR در زندگی](1.png)
+
 ## تاریخچه
 
 پیش‌تر از WebXR، نسخه‌ای ابتدایی تر به نام WebVR API در سال ۲۰۱۶ رونمایی شد که همانطور که از نامش پیداست، صرفا از واقعیت مجازی پشتیبانی می‌کرد و قابلیت AR را نداشت. مشکل اصلی ای که برای افزودن AR به این نسخه وجود داشت، آن بود که به واسطه روش های جداگانه برای افزودن AR، ناسازگاری ای بین دستگاه ها به وجود می‌آورد. به همین جهت، طولی نکشید و صرفا ۲ سال این نسخه قابل استفاده بود، اما با معرفی WebXR در سال ۲۰۱۸، این مشکل مرتفع گردید تا یک API واحد برای همه انواع تجربه‌های واقعیت توسعه‌دهندگان بدهد.
@@ -110,26 +112,48 @@ session.addEventListener("select", (event) => {
 ```javascript
 import * as THREE from "three";
 
-let scene = new THREE.Scene();
-let camera = new THREE.PerspectiveCamera();
-let renderer = new THREE.WebGLRenderer({ alpha: true });
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera();
+const renderer = new THREE.WebGLRenderer({ alpha: true });
 renderer.xr.enabled = true;
 document.body.appendChild(renderer.domElement);
 
-navigator.xr
-  .requestSession("immersive-ar", { requiredFeatures: ["hit-test"] })
-  .then((session) => renderer.xr.setSession(session));
+let refSpace, cube;
 
-let geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-let material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-let cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+// بررسی پشتیبانی و شروع
+if (navigator.xr) {
+  navigator.xr
+    .requestSession("immersive-ar", { requiredFeatures: ["local-floor"] })
+    .then((session) => {
+      renderer.xr.setSession(session);
+      session
+        .requestReferenceSpace("local-floor")
+        .then((rs) => (refSpace = rs));
+      session.addEventListener("select", () =>
+        cube.material.color.set(Math.random() * 0xffffff)
+      );
+      initScene();
+      renderer.setAnimationLoop((t, frame) => renderLoop(frame));
+    });
+} else {
+  console.error("WebXR not supported");
+}
 
-renderer.setAnimationLoop(() => {
+function initScene() {
+  const geo = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+  const mat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+  cube = new THREE.Mesh(geo, mat);
+  scene.add(cube);
+}
+
+function renderLoop(frame) {
+  if (refSpace && frame) frame.getViewerPose(refSpace); // XRFrame / pose
   cube.rotation.y += 0.01;
   renderer.render(scene, camera);
-});
+}
 ```
+
+در نمونه کد بالا، تمامی قسمت هایی که در بخش قبلی، به صورت مفصل بیان کرده بودیم را می‌توان مشاهده کرد.
 
 # Case Study
 
