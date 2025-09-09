@@ -1,5 +1,27 @@
 # موضوع تحقیق: استاندارد وب WebXR
 
+# فهرست مطالب
+
+- [موضوع تحقیق: استاندارد وب WebXR](#موضوع-تحقیق-استاندارد-وب-webxr)
+  - [استاندارد WebXR چیست؟](#استاندارد-webxr-چیست)
+  - [تاریخچه](#تاریخچه)
+- [چرا WebXR بهتر است؟](#چرا-webxr-بهتر-است)
+  - [مزایای WebXR](#مزایای-webxr)
+  - [مقایسه با رقبا](#مقایسه-با-رقبا)
+- [ساختار و اجزای اصلی WebXR](#ساختار-و-اجزای-اصلی-webxr)
+- [نمای کلی فعالیت با WebXR](#نمای-کلی-فعالیت-با-webxr)
+- [نمونه کد ساده](#نمونه-کد-ساده)
+- [برخی اجزای پیشرفته فنی](#برخی-اجزای-پیشرفته-فنی)
+  - [Hit Testing پیشرفته](#hit-testing-پیشرفته)
+  - [Anchors (XRAnchor)](#anchors-xranchor)
+  - [Image Tracking](#image-tracking)
+  - [Plane Detection](#plane-detection)
+  - [Hand Tracking / Gesture Recognition](#hand-tracking--gesture-recognition)
+  - [Light Estimation](#light-estimation)
+- [Case Study](#case-study)
+- [کاربرد در زندگی](#کاربرد-در-زندگی)
+- [سخن پایانی](#سخن-پایانی)
+
 ## استاندارد WebXR چیست؟
 
 WebXR یک استاندارد وب است که توسط W3C Immersive Web Working Group و با هدف تجربه واقعیت مجازی(VR) و واقعیت افزوده(AR) به صورت مستقیم در مرورگرها، توسعه داده شده است. واژه XR در نام این استاندارد، بیانگر Extended Reality به معنای استفاده از هر دوی VR و AR و یا حتی ترکیبشان، یعنی MR (Mixed Reality) است.
